@@ -2,7 +2,15 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // ✅ ADD THIS LINE
+  output: 'standalone',
+
+  experimental: {
+    // 👇 CRITICAL FIX
+    serverComponentsExternalPackages: [
+      '@payloadcms/db-postgres',
+      'pg',
+    ],
+  },
 
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
@@ -15,4 +23,6 @@ const nextConfig = {
   },
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withPayload(nextConfig, {
+  devBundleServerPackages: false,
+})
